@@ -5,7 +5,7 @@
 
 # Command example: ansible-playbook ./check_download_ptf_group.yml -e "{'ptf_group': 'SF99663'}"
 
-  hosts: reposerver
+  hosts: "{{ repo_server }}"
   gather_facts: No
   collections:
     - ibm.power_ibmi
