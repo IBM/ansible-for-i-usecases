@@ -42,8 +42,7 @@
         parameters:
           - "{{ {'order_id': download_fix_result.order_id,
           'file_path': download_fix_result.file_path,
-          'ptf_group_number': fix_group_check_result.group_info[0].ptf_group_number,
-          'ptf_list': fix_group_check_result.group_info[0].ptf_list,
+          'ptf_group_number': fix_group_check_result.group_info[0].ptf_group_number
           'ptf_group_level': fix_group_check_result.group_info[0].ptf_group_level,
           'release_date': fix_group_check_result.group_info[0].release_date,
           'description': fix_group_check_result.group_info[0].description,
