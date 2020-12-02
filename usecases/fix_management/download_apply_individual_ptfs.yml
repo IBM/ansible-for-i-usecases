@@ -7,7 +7,9 @@
 #'ptfs_list': ['SI67856', 'SI69375', 'SI73751']}"
   hosts: "{{ target_system }}"
   gather_facts: No
-
+  collections:
+   - ibm.power_ibmi
+   
   vars:
     ptfs_list_parm: "{{ ptfs_list }}"
     repo_server: "{{ repo_server }}"
