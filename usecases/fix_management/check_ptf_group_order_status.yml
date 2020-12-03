@@ -59,7 +59,7 @@
         loop: '{{ result.status }}'
         loop_control:
           loop_var: order
-        when: order.download_status == 'DOWNLOADED'
+        when: order.download_status == 'COMPLETE'
 
       - name: compose parameters to update order download status
         set_fact:
