@@ -56,10 +56,10 @@
       - name: compose complete order id list
         set_fact: 
           complete_order_id_list: "{{ complete_order_id_list|default([]) + [ order.order_id ] }}"
+        when: order.download_status == 'COMPLETE'
         loop: '{{ result.status }}'
         loop_control:
           loop_var: order
-        when: order.download_status == 'COMPLETE'
 
       - name: compose parameters to update order download status
         set_fact:
