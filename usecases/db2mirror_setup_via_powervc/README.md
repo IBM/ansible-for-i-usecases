@@ -4,7 +4,7 @@ Overview for db2mirror_setup_via_powervc use case
 The playbooks in this directory provides you a sample that you could setup a DB2Mirror pair via PowerVC. 
 
 Pre-requisites
-1. The source node is being managed by a PowerVC server
+1. The source node is being managed by a PowerVC server on which openstacksdk need to be installed.
 2. All required products have been installed on source node. Refer to https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_74/db2mi/db2mplanningsoftware.htm
 3. All IPs of source node, which are associating with NRG links but have not been configured on source node yet, must be attached to the source VM via PowerVC firstly. For example, assuming 11.11.11.11 is an IP defined in nrgLinkPairs as the internet_address of source node, if 11.11.11.11 is not shown in the returned list of CFGTCP -> OPTION 1, then user must attach a vNIC whose IP address is 11.11.11.11 on PowerVC manually before running main.yml.
 4. SSH server must be started.
