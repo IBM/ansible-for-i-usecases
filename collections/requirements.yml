@@ -1,3 +1,2 @@
 collections:
-  - name: https://github.com/IBM/ansible-for-i-usecases/raw/main/build/ibm-power_ibmi-9.9.9.tar.gz
-  #- name: ibm.power_ibmi
+  - name: ibm.power_ibmi
