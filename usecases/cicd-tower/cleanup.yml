@@ -22,18 +22,29 @@
           ignore_errors: true
           when: not provision|bool
 
-        - name: Destroy VM when provision
-          os_server:
-            auth:
-              auth_url: https://{{ ansible_ssh_host }}:5000/v3
-              username: '{{ ansible_ssh_user }}'
-              password: '{{ ansible_ssh_pass }}'
-              project_name: '{{ project }}'
-              project_domain_name: '{{ project_domain }}'
-              user_domain_name: '{{ user_domain }}'
-            name: '{{ vm_name }}'
-            verify: '{{ verify_cert }}'
-            state: 'absent'
-          delegate_to: 'powervc'
+        - block:
+            - name: Add PowerVC host {{ powervc_host }} to Ansible in-memory inventory
+              add_host:
+                name: 'powervc'
+                ansible_user: '{{ powervc_admin }}'
+                ansible_ssh_pass: '{{ powervc_admin_password }}'
+                ansible_ssh_extra_args: -o StrictHostKeyChecking=no
+                ansible_python_interpreter: /usr/bin/python3
+                ansible_ssh_host: '{{ powervc_host }}'
+              no_log: true
+
+            - name: Destroy VM when provision
+              os_server:
+                auth:
+                  auth_url: https://{{ powervc_host }}:5000/v3
+                  username: '{{ powervc_admin }}'
+                  password: '{{ powervc_admin_password }}'
+                  project_name: '{{ powervc_project }}'
+                  project_domain_name: '{{ project_domain }}'
+                  user_domain_name: '{{ user_domain }}'
+                name: '{{ vm_name }}'
+                verify: '{{ verify_cert }}'
+                state: 'absent'
+              delegate_to: 'powervc'
           when: provision|bool
       when: cleanup|bool

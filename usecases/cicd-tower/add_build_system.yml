@@ -1,7 +1,7 @@
 - hosts: localhost
   collections:
     - ibm.power_ibmi
-  tasks:  
+  tasks:
     - block:
         - name: Add build server to Ansible in-memory inventory
           add_host:
@@ -22,9 +22,13 @@
       when: not provision|bool
 
     - block:
+        - name: debug
+          debug:
+            var: build_system_ip
+
         - name: set_fact for non-fixed build environment
           set_fact:
-            build_system_ip: "{{ vm_info.server.accessIPv4 }}"
+            build_system_ip: '{{ build_system_ip }}'
             build_system_user: '{{ build_system_user }}'
             build_system_pass: '{{ build_system_pass }}'
 
@@ -47,10 +51,15 @@
         - name: wait until vm-{{ build_lib }} is up and ssh ready
           wait_for_connection:
             sleep: 10
-            timeout: 3600
-          delegate_to: "{{ build_system_ip }}"
-        
+            timeout: 1800
+          delegate_to: 'build_system'
+
         - name: install dependencies as needed
           include: ibmi_install_dependencies.yml
-          delegate_to: "{{ build_system_ip }}"
+          delegate_to: 'build_system'
+
+        - name: set build system to host_names
+          set_stats:
+            data:
+              host_names: 'build_system'
       when: provision|bool

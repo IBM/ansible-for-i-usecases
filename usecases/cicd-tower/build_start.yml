@@ -13,7 +13,7 @@
     - set_stats:
         data:
           vm_name: "VM-BUILD_{{ build_number }}"
-      when: provision|bool    
+      when: provision|bool
 
     - debug:
-        msg: "Build number {{ build_number }} starts!"    
+        msg: "Build number {{ build_number }} starts!"
