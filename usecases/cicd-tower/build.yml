@@ -2,6 +2,17 @@
   collections:
     - ibm.power_ibmi
   tasks:
+    - name: add vm-{{ build_lib }} to ansible in-memory inventory
+      add_host:
+        name: build_system
+        ansible_ssh_host: '{{ build_system_ip }}'
+        ansible_user: '{{ build_system_user }}'
+        ansible_ssh_pass: '{{ build_system_pass }}'
+        groups: build_systems
+        ansible_ssh_extra_args: -o StrictHostKeyChecking=no
+        ansible_python_interpreter: /QOpensys/pkgs/bin/python3
+      when: provision | bool
+
     - name: Delete {{ build_path }} if already exists
       file:
         state: absent
@@ -23,6 +34,14 @@
       delegate_to: '{{ item }}'
       with_items:
         - "{{ host_names.split() }}"
+      when: github_access_token | length > 0
+
+    - name: git clone from source repository
+      shell: /QOpenSys/pkgs/bin/git clone https://{{ git_repo_url | regex_replace('[A-z]*://', '') }} {{ build_path }}
+      delegate_to: '{{ item }}'
+      with_items:
+        - "{{ host_names.split() }}"
+      when: github_access_token | length == 0
 
     - name: call CL command to build application
       ibmi_cl_command:
