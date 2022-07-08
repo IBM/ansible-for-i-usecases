@@ -12,7 +12,7 @@ https://public.dhe.ibm.com/software/ibmi/products/pase/rpms/bootstrap.sh
 <br> bootstrap.tar.Z
 https://public.dhe.ibm.com/software/ibmi/products/pase/rpms/bootstrap.tar.Z
 </br>
-<br> python, libutil, libncurses6, python-itoolkit, python-ibm_db
+<br> python, libutil2, libncurses6, python-itoolkit, python-ibm_db, update-alternatives, libreadline8
 https://public.dhe.ibm.com/software/ibmi/products/pase/rpms/repo/ppc64/
 </br>
 <br> python-six
@@ -24,11 +24,13 @@ Variables
 | Variable              | Type          | Description                                      |
 |-----------------------|---------------|--------------------------------------------------|
 | `package_path`      | str          | The directory you just created, for example,  /tmp/ibmi-packages                  |
+| `is_python39_to_be_installed`      | boolean          | Python 39 is going to be enabled by default. Specify it to false it you would like to enable python39.                |
 
 Example 
 ----------------
 ```
 ansible-playbook -i path/to/inventory main.yml -e 'package_path=/tmp/ibmi-packages'
+ansible-playbook -i path/to/inventory main.yml -e "{'package_path':'/tmp/ibmi-packages', 'is_python39_to_be_installed':false}
 ```
 
 License
