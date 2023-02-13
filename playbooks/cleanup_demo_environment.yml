@@ -1,0 +1,25 @@
+# Copyright (c) IBM Corporation 2019, 2020
+# Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
+
+# Description:
+  # This playbook will uninstall all requested PTFs. 
+
+# Parameters:
+  # target_system -- The IBM i server which can use SNDPTFORD to download and store PTF and PTF group install files.
+  # ptfs -- The dictionary of PTFs to be processed.
+
+# Command example: 
+  # ansible-playbook ./cleanup_demo_environment.yml -e "{'target_system': 'systemA', 'ptfs': {'SI70544': '5770SS1'}}"
+---
+- name: Sync and apply a list of individual ptfs
+  hosts: '{{ target_system }}'
+  gather_facts: false
+  collections:
+    - ibm.power_ibmi
+
+  vars:
+    ptfs: "{{ ptfs }}"
+
+  tasks:
+    - include: query_remove_ptf.yml
+      with_dict: '{{ptfs}}'
